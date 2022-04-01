@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verbos Irregulares</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        crossorigin="anonymous">
+    <style>
+        body {
+            background-image: url("imagenes/fondo.gif");
+            margin-top: 75px;
+        }
+
+        h1 {
+            color: aliceblue;
+            margin-left: 35%;
+
+        }
+
+        h3 {
+            color: aliceblue;
+            margin-left: 35%;
+        }
+
+        #botonnivel {
+            margin-left: 39%;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container" id=niveles>
+
+        <div class="row">
+            <div class="container">
+                <h1>Irregular verbs test:</h1>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        
+        <div class="row">
+            <div class="col-4">
+                <button id="Nivel20" class="btn btn-block btn-primary" onclick="Niveles(20)">20 Verbos</button> <br>
+            </div>
+            <div class="col-4">
+                <button id="Nivel40" class="btn btn-block btn-success" onclick="Niveles(40)">40 Verbos</button>
+            </div>
+            <div class="col-4">
+                <button id="Nivel60" class="btn btn-block btn-info" onclick="Niveles(60)">60 Verbos</button>
+            </div>
+
+            <div class="col-4">
+                <button id="Nivel100" class="btn btn-block btn-secondary" onclick="Niveles(100)">100 Verbos</button>
+            </div>
+            <div class="col-4">
+                <button id="Nivel120" class="btn btn-block btn-dark" onclick="Niveles(120)">120 Verbos</button>
+            </div>
+            <div class="col-4">
+                <button id="Nivel140" class="btn btn-block btn-danger" onclick="Niveles(140)">140 Verbos</button>
+            </div>
+
+        </div>
+        <br>
+        <br>
+        <br>
+
+        <div class="row">
+            <h3>Choose a level to play!!</h3>
+        </div>
+    </div>
+    <br>
+
+
+    <div class="container" id="juego">
+        <div class="row">
+            <button id="castellano" class="btn btn-block btn-dark">Español</button>
+        </div>
+        <br>
+        <div class="row">
+            <button id="marcador" class="btn btn-block btn-primary">0</button>
+        </div>
+        <br>
+        
+        <div class="row">
+            <div class="col-4">
+                <div id="boton1"></div>
+            </div>
+            <div class="col-4">
+                <div id="boton2"></div>
+            </div>
+            <div class="col-4">
+                <div id="boton3"></div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <button id="botonresultado" class="btn btn-block btn-warning" onclick="comprobar()">CHECK SOLUTION</button>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-2">
+            </div>
+            <div class="col-8">
+                <button id="botonnivel" class="btn btn-danger" onClick="EnseñarNiveles()">
+                    Choose other level</a></button>
+            </div>
+            <div class="col-2">
+
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <script src="js/listaVerbos.js"> </script>
+    <script>
+
+        document.getElementById("juego").style.display = "none";
+
+        function elegirVerbo() {
+            verbo = Math.floor(Math.random() * verbos.length);// variable verbo elegido
+            tiempoParaAdivinar = Math.floor(Math.random() * 3);
+            console.log(tiempoParaAdivinar)
+
+            document.getElementById("castellano").innerHTML = verbos[verbo][3];
+            //el boton que salga en el random desaparece
+
+            if (tiempoParaAdivinar == 0) {
+                document.getElementById("boton1").innerHTML = '<input id="caja" class= "form-control">';
+            }
+
+            else {
+                document.getElementById("boton1").innerHTML =
+                    '<button class="btn btn-block btn-secondary">' + verbos[verbo][0] + '</button>';
+            }
+
+            if (tiempoParaAdivinar == 1) {
+                document.getElementById("boton2").innerHTML = '<input id="caja" class= "form-control">';
+                
+            }
+
+            else {
+                document.getElementById("boton2").innerHTML =
+                    '<button class="btn btn-block btn-secondary">' + verbos[verbo][1] + '</button>';
+            }
+
+            if (tiempoParaAdivinar == 2) {
+                document.getElementById("boton3").innerHTML = '<input id="caja" class= "form-control">';
+            }
+
+            else {
+                document.getElementById("boton3").innerHTML =
+                    '<button class="btn btn-block btn-secondary">' + verbos[verbo][2] + '</button>';
+            }
+
+        }
+
+        elegirVerbo();
+
+        //variables
+        var tiempoParaAdivinar = 0;
+        var verbo = 0;// verbo a elegir
+        var jugando = 0;
+        var marcador = 0;
+        var numeroVerbos = 0;
+
+        function comprobar() {
+            if (jugando == 0) {
+                jugando = 1;//si es igual a 1 chequea y no sigue jugando
+
+                //lee la caja donde escribe el usuario
+                var verboLeido = document.getElementById('caja').value;
+                document.getElementById('botonresultado').classList.remove('btn-danger');
+                document.getElementById('botonresultado').classList.remove('btn-success');
+                document.getElementById('botonresultado').classList.remove('btn-dark');
+                //si el texto es el resultado se pone en verde el boton resultado
+
+                if (verbos[verbo][tiempoParaAdivinar] == verboLeido) {
+                    marcador++;//si el verbo escrito es correcto el marcador suma
+                    document.getElementById('botonresultado').classList.add('btn-success');
+                    document.getElementById('botonresultado').innerText = "IT´S CORRECT!";
+                }
+
+                else {// Si la respuesta no es correcta se resta uno al marcador
+                    marcador--;
+                    document.getElementById('botonresultado').classList.add('btn-danger');
+                    document.getElementById('botonresultado').innerText = verbos[verbo][tiempoParaAdivinar];
+
+                }
+            }
+
+            else {
+                document.getElementById('botonresultado').classList.add('btn-dark');
+                document.getElementById('botonresultado').innerText = "COMPROBAR RESPUESTA";
+                jugando = 0;
+                elegirVerbo();
+            }
+            document.getElementById('marcador').innerText = marcador;
+        }
+
+
+        function Niveles(numVerbos) {//Muestra los niveles a elegir
+            numeroVerbos = numVerbos;
+            console.log(numeroVerbos);
+            document.getElementById("niveles").style.display = "none";
+            document.getElementById("juego").style.display = "inherit";
+            document.getElementById("castellano").style.display = "block";
+            document.getElementById("nivelSelec").innerHTML = numeroVerbos + " verbs";
+        }
+
+        function EnseñarNiveles() {
+            document.getElementById("niveles").style.display = "flex";
+            document.getElementById("castellano").style.display = "none";
+            document.getElementById("juego").style.display = "none";
+            elegirVerbo();//Al cambiar de nivel cambia el verbo
+        }
+
+
+
+    </script>
+</body>
+
+</html>
